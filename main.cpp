@@ -18,19 +18,21 @@ typedef struct
     char name[SIZE], borrowed_books[100];
 } Borrower;
 
-void addBook(Book book) {
+FILE *openFile(const char *fileName, const char *mode) {
     FILE *fp;
 
-    fp = fopen(BOOKFNAME, "a");
+    fp = fopen(fileName, mode);
     if (fp == NULL)
     {
-        printf("File not found!\n");
-        return;
+        printf("Failed to open file %s!\n", fileName);
     }
-    else
-    {
-        printf("Record stored successfully!\n");
-    }
+
+    return fp;
+}
+
+void addBook(Book book) {
+    FILE *fp = openFile(BOOKFNAME, "a");
+    printf("Record stored successfully!\n");
 
     fwrite(&book, sizeof(book), 1, fp);
 
@@ -39,7 +41,20 @@ void addBook(Book book) {
 
 void readBook()
 {
+    FILE *fp = openFile(BOOKFNAME, "r");
 
+    printf("\t\t\t\tBOOK LIST\n"
+           "ID\tTitle\t\t\t\tAuthor\t\t\t\tAvailable\n");
+
+    Book book;
+    while (fread(&book, sizeof(book), 1, fp))
+    {
+        printf("%d\t%s\t\t\t%s\t\t\t\t", book.book_id, book.title, book.author);
+        printf("%s", book.available ? "Yes\n" : "No\n");
+    }
+    printf("End of file.\n\n");
+
+    fclose(fp);
 }
 
 void rmNewline(char *input)
@@ -58,7 +73,7 @@ int main() {
     do {
         printf("===== Library System =====\n"
                 "[1] Add Book\n"
-                "[2] Book List"
+                "[2] Book List\n"
                 "[3] Remove Book\n"
                 "[4] Issue Book\n"
                 "[5] Issued Book List\n\n"
