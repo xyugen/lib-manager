@@ -4,6 +4,8 @@
 #define SIZE 54
 #define BOOKFNAME "book_records.txt"
 #define BORROWERFNAME "borrower_records.txt";
+#define BOOKTFNAME "book_records.temp.txt"
+#define BORROWERTFNAME "borrower_records.temp.txt";
 
 typedef struct
 {
@@ -57,9 +59,38 @@ void readBook()
     fclose(fp);
 }
 
-void rmBook(Book book)
+void rmBook(Book bookID)
 {
+    FILE *fp = openFile(BOOKFNAME, "r");
+    FILE *temp = openFile(BOOKTFNAME, "w");
 
+    Book bookRec;
+    int choice;
+    while (fread(&bookRec, sizeof(bookRec), 1, fp))
+    {
+        if (bookID.book_id != bookRec.book_id)
+        {
+            fwrite(&bookRec, sizeof(bookRec), 1, temp);
+        } else {
+            printf("Are your sure you want to remove book \"%s\"?\n"
+                   "[1] YES\n"
+                   "[0] NO\n"
+                   "Choice: ", bookRec.title);
+            scanf("%d", &choice);
+            if (choice == 1) {
+                printf("Book removed successfully!\n");
+            } else {
+                fwrite(&bookRec, sizeof(bookRec), 1, temp);
+                printf("Book not removed.\n");
+            }
+        }
+    }
+
+    fclose(fp);
+    fclose(temp);
+
+    remove(BOOKFNAME);
+    rename(BOOKTFNAME, BOOKFNAME);
 }
 
 void rmNewline(char *input)
