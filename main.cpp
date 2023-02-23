@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 #define SIZE 54
 
@@ -17,6 +18,15 @@ typedef struct
 
 void addBook(Book book) {
 
+}
+
+void rmNewline(char *input)
+{
+    int length = strlen(input);
+    if (input[length - 1] == '\n')
+    {
+        input[length - 1] = '\0';
+    }
 }
 
 int main() {
@@ -43,9 +53,11 @@ int main() {
 
                 printf("Enter book title: ");
                 fgets(book.title, SIZE, stdin);
+                rmNewline(book.title);
 
                 printf("Enter book author: ");
                 fgets(book.author, SIZE, stdin);
+                rmNewline(book.author);
 
                 book.available = true;
 
