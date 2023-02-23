@@ -1,0 +1,19 @@
+# ninja log v5
+1	465	6988416198426067	CMakeFiles/library_system.dir/main.cpp.obj	3a9fbe9b435caa10
+467	1103	6988416204765879	library_system.exe	ee0300e9360a7d77
+4	146	6988417331714326	CMakeFiles/library_system.dir/main.cpp.obj	3a9fbe9b435caa10
+147	414	6988417334312943	library_system.exe	ee0300e9360a7d77
+3	148	6988417485883503	CMakeFiles/library_system.dir/main.cpp.obj	3a9fbe9b435caa10
+149	437	6988417488732336	library_system.exe	ee0300e9360a7d77
+3	471	6988418629085049	CMakeFiles/library_system.dir/main.cpp.obj	3a9fbe9b435caa10
+472	834	6988418632643291	library_system.exe	ee0300e9360a7d77
+3	143	6988418711223416	CMakeFiles/library_system.dir/main.cpp.obj	3a9fbe9b435caa10
+144	407	6988418713791947	library_system.exe	ee0300e9360a7d77
+3	142	6988418823904038	CMakeFiles/library_system.dir/main.cpp.obj	3a9fbe9b435caa10
+143	407	6988418826492555	library_system.exe	ee0300e9360a7d77
+3	141	6988418918894343	CMakeFiles/library_system.dir/main.cpp.obj	3a9fbe9b435caa10
+142	407	6988418921492964	library_system.exe	ee0300e9360a7d77
+3	139	6988418994974340	CMakeFiles/library_system.dir/main.cpp.obj	3a9fbe9b435caa10
+140	408	6988418997612819	library_system.exe	ee0300e9360a7d77
+3	141	6988419953345102	CMakeFiles/library_system.dir/main.cpp.obj	3a9fbe9b435caa10
+142	434	6988419956203466	library_system.exe	ee0300e9360a7d77
