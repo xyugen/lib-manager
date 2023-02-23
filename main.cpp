@@ -17,7 +17,8 @@ typedef struct
 typedef struct
 {
     int borrower_id;
-    char name[SIZE], borrowed_books[100];
+    char name[SIZE];
+    int borrowed_books[100], borrowed_size;
 } Borrower;
 
 FILE *openFile(const char *fileName, const char *mode) {
@@ -71,6 +72,12 @@ bool checkBorrowerID(int id)
 
 void addBook(Book book) {
     FILE *fp = openFile(BOOKFNAME, "a");
+
+    if (checkBookID(book.book_id))
+    {
+        printf("ID already exists!\n");
+        return;
+    }
 
     printf("Record stored successfully!\n");
 
@@ -137,6 +144,15 @@ void rmBook(Book bookID)
     rename(BOOKTFNAME, BOOKFNAME);
 }
 
+void addBorrower(Borrower borrower)
+{
+    if (checkBorrowerID(borrower.borrower_id))
+    {
+        printf("ID already exists!\n");
+        return;
+    }
+}
+
 void rmNewline(char *input)
 {
     int length = strlen(input);
@@ -170,12 +186,6 @@ int main() {
                 scanf("%d", &book.book_id);
                 getchar();
 
-                if (checkBookID(book.book_id))
-                {
-                    printf("ID already exists!\n");
-                    break;
-                }
-
                 printf("Enter book title: ");
                 fgets(book.title, SIZE, stdin);
                 rmNewline(book.title);
@@ -198,6 +208,25 @@ int main() {
                 rmBook(book);
                 break;
             case 4:
+                printf("Enter borrower ID: ");
+                scanf("%d", &borrower.borrower_id);
+                getchar();
+
+                printf("Enter borrower name: ");
+                fgets(borrower.name, SIZE, stdin);
+                rmNewline(borrower.name);
+
+                borrower.borrowed_size = 0;
+                printf("Enter the amount of books that will be borrowed: ");
+                scanf("%d", &borrower.borrowed_size);
+                getchar();
+
+                for (int i = 0; i < borrower.borrowed_size; i++) {
+                    printf("Enter ID of book number %d: ", i + 1);
+                    scanf("%d", &borrower.borrowed_books[i]);
+                }
+
+                addBorrower(borrower);
                 break;
             case 5:
                 break;
