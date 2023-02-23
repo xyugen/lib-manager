@@ -37,6 +37,11 @@ void addBook(Book book) {
     fclose(fp);
 }
 
+void readBook()
+{
+
+}
+
 void rmNewline(char *input)
 {
     int length = strlen(input);
@@ -53,9 +58,10 @@ int main() {
     do {
         printf("===== Library System =====\n"
                 "[1] Add Book\n"
-                "[2] Remove Book\n"
-                "[3] Issue Book\n"
-                "[4] Issued Book List\n\n"
+                "[2] Book List"
+                "[3] Remove Book\n"
+                "[4] Issue Book\n"
+                "[5] Issued Book List\n\n"
                 "[0] Exit\n"
                 "==========================\n");
 
@@ -82,8 +88,13 @@ int main() {
                 addBook(book);
                 break;
             case 2:
+                readBook();
                 break;
             case 3:
+                break;
+            case 4:
+                break;
+            case 5:
                 break;
             case 0:
                 break;
