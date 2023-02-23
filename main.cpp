@@ -11,7 +11,7 @@ typedef struct
 {
     int book_id;
     char title[SIZE], author[SIZE];
-    bool available;
+    bool is_available;
 } Book;
 
 typedef struct
@@ -50,6 +50,29 @@ bool checkBookID(int id)
     fclose(fp);
 
     return false;
+}
+
+void toggleBookAvailability(int id) {
+    FILE *fp = openFile(BOOKFNAME, "r");
+    FILE *temp = openFile(BOOKTFNAME, "w");
+
+    Book bookRec;
+    while (fread(&bookRec, sizeof(bookRec), 1, fp))
+    {
+        if (id != bookRec.book_id)
+        {
+            fwrite(&bookRec, sizeof(bookRec), 1, temp);
+        } else {
+            bookRec.is_available = !bookRec.is_available;
+            fwrite(&bookRec, sizeof(bookRec), 1, temp);
+        }
+    }
+
+    fclose(fp);
+    fclose(temp);
+
+    remove(BOOKFNAME);
+    rename(BOOKTFNAME, BOOKFNAME);
 }
 
 bool checkBorrowerID(int id)
@@ -97,7 +120,7 @@ void readBook()
     while (fread(&book, sizeof(book), 1, fp))
     {
         printf("%d\t%s\t\t\t%s\t\t\t\t", book.book_id, book.title, book.author);
-        printf("%s", book.available ? "Yes\n" : "No\n");
+        printf("%s", book.is_available ? "Yes\n" : "No\n");
     }
     printf("End of file.\n\n");
 
@@ -156,11 +179,11 @@ void addBorrower(Borrower borrower)
 
     for (int i = 0; i < borrower.borrowed_size; i++)
     {
-        if (!checkBookID(borrower.borrowed_books[i]))
-        {
-            // TODO: Change the availability of the borrowed book to false
+        if (!checkBookID(borrower.borrowed_books[i])) {
             printf("Book ID doesn't exists!\n");
             return;
+        } else {
+            toggleBookAvailability(borrower.borrowed_books[i]);
         }
     }
 
@@ -212,7 +235,7 @@ int main() {
                 fgets(book.author, SIZE, stdin);
                 rmNewline(book.author);
 
-                book.available = true;
+                book.is_available = true;
 
                 addBook(book);
                 break;
