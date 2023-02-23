@@ -15,8 +15,14 @@ typedef struct
     char name[SIZE], borrowed_books[100];
 } Borrower;
 
+void addBook(Book book) {
+
+}
+
 int main() {
     int choice;
+    Book book;
+    Borrower borrower;
     do {
         printf("===== Library System =====\n"
                 "[1] Add Book\n"
@@ -32,6 +38,18 @@ int main() {
 
         switch (choice) {
             case 1:
+                printf("Enter book ID: ");
+                scanf("%d", book.book_id);
+
+                printf("Enter book title: ");
+                fgets(book.title, SIZE, stdin);
+
+                printf("Enter book author: ");
+                fgets(book.author, SIZE, stdin);
+
+                book.available = true;
+
+                addBook(book);
                 break;
             case 2:
                 break;
