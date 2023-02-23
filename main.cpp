@@ -146,11 +146,29 @@ void rmBook(Book bookID)
 
 void addBorrower(Borrower borrower)
 {
+    FILE *fp = openFile(BORROWERFNAME, "a");
+
     if (checkBorrowerID(borrower.borrower_id))
     {
-        printf("ID already exists!\n");
+        printf("Borrower ID already exists!\n");
         return;
     }
+
+    for (int i = 0; i < borrower.borrowed_size; i++)
+    {
+        if (!checkBookID(borrower.borrowed_books[i]))
+        {
+            // TODO: Change the availability of the borrowed book to false
+            printf("Book ID doesn't exists!\n");
+            return;
+        }
+    }
+
+    fwrite(&borrower, sizeof(borrower), 1, fp);
+
+    printf("Borrower added successfully!\n");
+
+    fclose(fp);
 }
 
 void rmNewline(char *input)
