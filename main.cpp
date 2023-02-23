@@ -57,6 +57,11 @@ void readBook()
     fclose(fp);
 }
 
+void rmBook(Book book)
+{
+
+}
+
 void rmNewline(char *input)
 {
     int length = strlen(input);
@@ -106,6 +111,10 @@ int main() {
                 readBook();
                 break;
             case 3:
+                printf("Enter book ID you want to remove: ");
+                scanf("%d", &book.book_id);
+
+                rmBook(book);
                 break;
             case 4:
                 break;
