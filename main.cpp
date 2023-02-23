@@ -2,6 +2,8 @@
 #include <string.h>
 
 #define SIZE 54
+#define BOOKFNAME "book_records.txt"
+#define BORROWERFNAME "borrower_records.txt";
 
 typedef struct
 {
@@ -17,7 +19,22 @@ typedef struct
 } Borrower;
 
 void addBook(Book book) {
+    FILE *fp;
 
+    fp = fopen(BOOKFNAME, "a");
+    if (fp == NULL)
+    {
+        printf("File not found!\n");
+        return;
+    }
+    else
+    {
+        printf("Record stored successfully!\n");
+    }
+
+    fwrite(&book, sizeof(book), 1, fp);
+
+    fclose(fp);
 }
 
 void rmNewline(char *input)
@@ -49,7 +66,8 @@ int main() {
         switch (choice) {
             case 1:
                 printf("Enter book ID: ");
-                scanf("%d", book.book_id);
+                scanf("%d", &book.book_id);
+                getchar();
 
                 printf("Enter book title: ");
                 fgets(book.title, SIZE, stdin);
