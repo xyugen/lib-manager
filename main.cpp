@@ -3,9 +3,9 @@
 
 #define SIZE 54
 #define BOOKFNAME "book_records.txt"
-#define BORROWERFNAME "borrower_records.txt";
+#define BORROWERFNAME "borrower_records.txt"
 #define BOOKTFNAME "book_records.temp.txt"
-#define BORROWERTFNAME "borrower_records.temp.txt";
+#define BORROWERTFNAME "borrower_records.temp.txt"
 
 typedef struct
 {
@@ -32,8 +32,45 @@ FILE *openFile(const char *fileName, const char *mode) {
     return fp;
 }
 
+bool checkBookID(int id)
+{
+    FILE *fp = openFile(BOOKFNAME, "r");
+
+    Book book;
+    while (fread(&book, sizeof(book), 1, fp))
+    {
+        if (book.book_id == id)
+        {
+            fclose(fp);
+            return true;
+        }
+    }
+    fclose(fp);
+
+    return false;
+}
+
+bool checkBorrowerID(int id)
+{
+    FILE *fp = openFile(BORROWERFNAME, "r");
+
+    Borrower borrower;
+    while (fread(&borrower, sizeof(borrower), 1, fp))
+    {
+        if (borrower.borrower_id == id)
+        {
+            fclose(fp);
+            return true;
+        }
+    }
+    fclose(fp);
+
+    return false;
+}
+
 void addBook(Book book) {
     FILE *fp = openFile(BOOKFNAME, "a");
+
     printf("Record stored successfully!\n");
 
     fwrite(&book, sizeof(book), 1, fp);
@@ -63,6 +100,12 @@ void rmBook(Book bookID)
 {
     FILE *fp = openFile(BOOKFNAME, "r");
     FILE *temp = openFile(BOOKTFNAME, "w");
+
+    if (!checkBookID(bookID.book_id))
+    {
+        printf("ID doesn't exist!\n");
+        return;
+    }
 
     Book bookRec;
     int choice;
@@ -125,6 +168,12 @@ int main() {
                 printf("Enter book ID: ");
                 scanf("%d", &book.book_id);
                 getchar();
+
+                if (checkBookID(book.book_id))
+                {
+                    printf("ID already exists!\n");
+                    break;
+                }
 
                 printf("Enter book title: ");
                 fgets(book.title, SIZE, stdin);
